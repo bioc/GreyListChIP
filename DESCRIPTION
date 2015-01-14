@@ -1,0 +1,20 @@
+Package: GreyListChIP
+Type: Package
+Version: 0.99.2
+Title: Grey Lists -- Mask Artefact Regions Based on ChIP Inputs
+Date: 2014-12-29
+Author: Gord Brown <gdbzork@gmail.com>
+Maintainer: Gord Brown <gdbzork@gmail.com>
+Description: Identify regions of ChIP experiments with high signal in
+        the input, that lead to spurious peaks during peak calling.
+        Remove reads aligning to these regions prior to peak calling,
+        for cleaner ChIP analysis.
+License: Artistic-2.0
+LazyLoad: yes
+Depends: R (>= 3.1), methods, GenomicRanges
+Imports: GenomicAlignments, BSgenome, Rsamtools, rtracklayer, MASS,
+        parallel, GenomeInfoDb
+Suggests: BiocStyle, BiocGenerics, RUnit
+Enhances: BSgenome.Hsapiens.UCSC.hg19
+biocViews: ChIPSeq, Alignment, Preprocessing, DifferentialPeakCalling,
+        Sequencing, GenomeAnnotation, Coverage

@@ -1,0 +1,150 @@
+%\VignetteIndexEntry{Generating Grey Lists from Input Libraries}
+%\VignettePackage{GreyListChIP}
+%\VignetteEngine{utils::Sweave}
+
+\documentclass{article}
+
+<<style, eval=TRUE, echo=FALSE, results=tex>>=
+BiocStyle::latex()
+@ 
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\title{Generating Grey Lists from Input Libraries}
+\author{Gord Brown}
+
+\date{Edited: 2014-12-29; Compiled: \today}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+Many cell lines and tumour samples show anomalous signal in the input or
+control sample in some regions.  These regions also show high signal in the
+corresponding ChIPs.  Peak callers are not, in general, well-behaved in these
+regions, tending to call many spurious peaks.  The purpose of this package is
+to identify those regions, so that reads in those regions may be removed prior
+to peak calling, allowing for more accurate insert size estimation and reducing
+the number of false-positive peaks.
+
+As part of the ENCODE project, Anshul Kundaje identified regions that show
+enrichment in ChIP experiments independent of what factor is being ChIPped, or
+what cell line the sample comes from\cite{encodeFlagship,blackLists}.  He
+called those regions "signal artefact" regions, or colloquially "black lists".
+We call our lists of high signal grey lists, to distinguish them from ENCODE's
+black lists, because they are not universal, but rather cell line (or sample)
+specific, and because they can be tuned depending on the stringency required,
+and so that we can make jokes about having 50 shades of grey
+lists\cite{james2012}.
+
+This vignette summarizes the construction of grey lists.  
+
+\section{Generating a Grey List}
+
+Generating a grey list involves
+\begin{enumerate}
+  \item generating a tiling of the genome,
+  \item counting reads from a BAM file for the tiling,
+  \item sampling from the counts and fitting the samples to the negative
+        binomial distribution to calculate the read count threshold,
+  \item filtering the tiling to identify regions of high signal, then
+  \item exporting the resulting set to a bed file.
+\end{enumerate}
+
+First create the \Rcode{GreyList} object (this karyotype file includes just
+chromosome 21):
+<<create>>=
+library(GreyListChIP)
+path <- system.file("extra", package="GreyListChIP")
+fn <- file.path(path,"karyotype_chr21.txt")
+gl <- new("GreyList",karyoFile=fn)
+@
+Normally the next step would be to count reads:
+<<count, eval=FALSE>>=
+gl <- countReads(gl,"myBamFile.bam")
+@
+but to save time we'll generate some fake data:
+<<fake>>=
+gl@counts <- rnbinom(length(gl@tiles),size=1.08,mu=11.54)
+@
+
+Now calculate the threshold.  The defaults are
+\Rcode{reps=100,sampleSize=30000,p=0.99} but for demonstration
+purposes we'll use smaller values for faster results:
+<<threshold>>=
+gl <- calcThreshold(gl,reps=10,sampleSize=1000,p=0.99,cores=1)
+@
+This method fits the sample(s) to the negative binomial distribution, then 
+uses the estimated paramters to identify a read-count
+threshold\cite{venables2002,devroye1986}.
+
+Now generate the grey list itself:
+<<makeGrey>>=
+gl <- makeGreyList(gl,maxGap=16384)
+gl
+@
+(The coverage is higher than normal due to the counts being fake.  Normally
+a threshold of p=0.99 leads to coverage of about 1\% of the genome.)
+
+And export it to a file:
+<<export, eval=FALSE>>=
+export(gl,con="myGreyList.bed")
+@
+
+And that's it.  If you are happy to accept the package's defaults, you can
+generate the list in one step (not counting the \Rcode{export} step):
+
+<<onestep, eval=FALSE>>=
+library(BSgenome.Hsapiens.UCSC.hg19)
+gl <- greyListBS(BSgenome.Hsapiens.UCSC.hg19,"myBamFile.bam")
+export(gl,con="myGreyList.bed")
+@
+
+\section{Sample Data}
+
+A sample \Robject{GreyList} object named \Rcode{gl} can be
+obtained, once the package is attached, via:
+
+<<sampleData, eval=TRUE>>=
+# Load a pre-built GreyList object named "gl"
+data(greyList)
+print(gl)
+@
+
+This sample object covers
+only human chromosome 21 (from genome version hg19).  The read counts
+are from an MCF7 input library constructed in the Carroll Lab of
+Cancer Research UK's Cambridge Institute.  See the \Robject{greyList}
+man page for details of this object.
+
+\section{Obtaining Karyotypes}
+
+If a \Rcode{BSgenome} object exists for your reference genome of interest, the
+karyotype is usually most easily obtained via that object.  See the
+\Rcode{BSgenome} package documentation for a list of available reference
+genomes\cite{bsgenome}.
+
+Otherwise, if the reference genome is available via the UCSC Genome
+Browser\cite{genomebrowser}, karyotype files can be obtained using the
+\Rcode{fetchChromSizes} utility available on the Genome Browser's software
+download page\cite{fetchchrom}.
+
+Failing that, a karyotype file can be constructed by hand using a text editor.
+The file format is given in the \Robject{loadKaryotype} documentation.
+All that is needed is the names of the chromosomes, (exactly) matching the names
+in the BAM file, and their lengths in base pairs.
+
+\section{Acknowledgements}
+
+Thanks to Rory Stark and Tom Carroll for suggestions, advice and encouragement.
+
+\section{Session Info}
+<<sessionInfo, results=tex, print=TRUE, eval=TRUE>>=
+toLatex(sessionInfo())
+@
+\bibliography{GreyList}
+
+\end{document}

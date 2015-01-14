@@ -1,0 +1,21 @@
+importFrom(methods,new,setMethod,setGeneric)
+importMethodsFrom(methods,show)
+importFrom(GenomicAlignments,summarizeOverlaps)
+importMethodsFrom(rtracklayer,export)
+importFrom(Rsamtools,BamFile)
+import(BSgenome)
+importFrom(MASS,fitdistr)
+import(GenomicRanges)
+importFrom(parallel,mclapply)
+importFrom(GenomeInfoDb,Seqinfo,seqlengths)
+
+exportClasses(GreyList)
+exportMethods(getKaryotype,
+              loadKaryotype,
+              countReads,
+              calcThreshold,
+              makeGreyList,
+              export,
+              show
+)
+export(greyListBS)
