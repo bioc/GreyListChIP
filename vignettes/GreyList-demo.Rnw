@@ -55,7 +55,7 @@ Generating a grey list involves
 \end{enumerate}
 
 First create the \Rcode{GreyList} object (this karyotype file includes just
-chromosome 21):
+human chromosome 21, from reference genome version GRCh37):
 <<create>>=
 library(GreyListChIP)
 path <- system.file("extra", package="GreyListChIP")
@@ -78,7 +78,7 @@ purposes we'll use smaller values for faster results:
 gl <- calcThreshold(gl,reps=10,sampleSize=1000,p=0.99,cores=1)
 @
 This method fits the sample(s) to the negative binomial distribution, then 
-uses the estimated paramters to identify a read-count
+uses the estimated parameters to identify a read-count
 threshold\cite{venables2002,devroye1986}.
 
 Now generate the grey list itself:
