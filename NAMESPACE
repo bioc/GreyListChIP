@@ -8,6 +8,7 @@ importFrom(MASS,fitdistr)
 import(GenomicRanges)
 importFrom(parallel,mclapply)
 importFrom(GenomeInfoDb,Seqinfo,seqlengths)
+importFrom(SummarizedExperiment,assays)
 
 exportClasses(GreyList)
 exportMethods(getKaryotype,
