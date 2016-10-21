@@ -9,6 +9,9 @@ import(GenomicRanges)
 importFrom(parallel,mclapply)
 importFrom(GenomeInfoDb,Seqinfo,seqlengths)
 importFrom(SummarizedExperiment,assays)
+importFrom(methods,callNextMethod)
+importFrom(stats,qnbinom)
+importFrom(utils,read.table,write.table)
 
 exportClasses(GreyList)
 exportMethods(getKaryotype,

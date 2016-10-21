@@ -52,7 +52,10 @@ initialize.GreyList <- function(.Object, genome=NA, karyoFile=NA, ...) {
 loadKaryotype.GreyList <- function(obj,karyoFile,tileSize) {
   tbl <- read.table(karyoFile,header=FALSE,stringsAsFactors=FALSE)
   colnames(tbl) <- c("Chrom","Length")
-  kInfo <- Seqinfo(tbl$Chrom,seqlengths=tbl$Length,isCircular=rep(FALSE,nrow(tbl)),genome=NA)
+  kInfo <- Seqinfo(tbl$Chrom,
+                   seqlengths=tbl$Length,
+                   isCircular=rep(FALSE,nrow(tbl)),
+                   genome=NA)
   obj@karyo_file <- karyoFile
   obj@karyotype <- kInfo
   x <- tileGenome(obj@karyotype,tilewidth=tileSize/2)

@@ -1,8 +1,8 @@
 Package: GreyListChIP
 Type: Package
-Version: 1.7.0
+Version: 1.7.1
 Title: Grey Lists -- Mask Artefact Regions Based on ChIP Inputs
-Date: 2015-05-30
+Date: 2016-10-21
 Author: Gord Brown <gdbzork@gmail.com>
 Maintainer: Gordon Brown <gordon.brown@cruk.cam.ac.uk>
 Description: Identify regions of ChIP experiments with high signal in
@@ -13,7 +13,8 @@ License: Artistic-2.0
 LazyLoad: yes
 Depends: R (>= 3.1), methods, GenomicRanges
 Imports: GenomicAlignments, BSgenome, Rsamtools, rtracklayer, MASS,
-        parallel, GenomeInfoDb, SummarizedExperiment
+        parallel, GenomeInfoDb, SummarizedExperiment, stats,
+        utils
 Suggests: BiocStyle, BiocGenerics, RUnit
 Enhances: BSgenome.Hsapiens.UCSC.hg19
 biocViews: ChIPSeq, Alignment, Preprocessing, DifferentialPeakCalling,
