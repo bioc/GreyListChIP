@@ -21,7 +21,9 @@ where \code{genome} is a \code{"BSgenome"} object describing a genome, such as
 \code{BSgenome.Hsapiens.UCSC.hg19}.  Alternatively, a karyotype
 file can be provided explictly: \code{new("GreyList", karyoFile=fn, ...)}.
 Either \code{genome} or \code{karyoFile} must be provided; if both are present,
-the \code{\linkS4class{BSgenome}} object takes precedence.
+the \code{\linkS4class{BSgenome}} object takes precedence.  Alternatively,
+an explicit list of regions may be provided as a \code{\linkS4class{GRanges}}
+object.
 }
 \section{Slots}{
   \describe{
@@ -33,6 +35,10 @@ the \code{\linkS4class{BSgenome}} object takes precedence.
     \item{\code{karyo_file}:}{The name of a file containing chromosome sizes
           for the reference genome of interest, one per line, as
           "chromName chromLength" pairs.}
+    \item{\code{genomicRegions}:}{a \code{\linkS4class{GRanges}} object
+          that defines which regions of the genome should be used to build
+          the grey list.  This is to allow the list to be built on just part
+          of the genome.}
     \item{\code{tiles}:}{A \code{\linkS4class{GRanges}} object with an
           overlapping tiling of the genome (by default 1Kb tiles every 512b). }
     \item{\code{counts}:}{A numeric vector holding the counts corresponding to
@@ -82,6 +88,8 @@ the \code{\linkS4class{BSgenome}} object takes precedence.
           an integer indicating the length of the chromosome.}
     \item{getKaryotype}{\code{signature(obj = "GreyList")}: Get the karyotype
           of a genome from a \code{\linkS4class{BSgenome}} object.}
+    \item{setRegions}{\code{signature(obj = "GreyList")}: Set the region(s)
+          of a genome to use in making the \code{\linkS4class{GreyList}} object.}
     \item{makeGreyList}{\code{signature(obj = "GreyList")}: Compute the actual
           grey list, after calculating the threshold.}
     \item{show}{\code{signature(object = "GreyList")}: Display the grey list.}
@@ -91,7 +99,9 @@ the \code{\linkS4class{BSgenome}} object takes precedence.
 Gord Brown (\email{gdbzork@gmail.com})
 }
 \seealso{
-  \code{\linkS4class{BSgenome}}, \code{\linkS4class{Seqinfo}}
+  \code{\linkS4class{BSgenome}},
+  \code{\linkS4class{Seqinfo}},
+  \code{\linkS4class{GRanges}}
 }
 \examples{
 showClass("GreyList")

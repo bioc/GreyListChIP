@@ -2,6 +2,7 @@ setClass("GreyList",
          representation(genome="BSgenome",
                         karyotype="Seqinfo",
                         karyo_file="character",
+                        genomeRegions="GRanges",
                         tiles="GRanges",
                         counts="numeric",
                         files="character",
@@ -21,6 +22,7 @@ setClass("GreyList",
          prototype(genome=new("BSgenome"),
                    karyotype=new("Seqinfo"),
                    karyo_file=NA_character_,
+                   genomeRegions=new("GRanges"),
                    tiles=new("GRanges"),
                    counts=NA_integer_,
                    files=vector(mode="character"),
@@ -40,12 +42,14 @@ setClass("GreyList",
          validity=function(object) { return(TRUE) }
 )
 
-initialize.GreyList <- function(.Object, genome=NA, karyoFile=NA, ...) {
+initialize.GreyList <- function(.Object, genome=NA, karyoFile=NA, regions=NA, ...) {
   if (!missing(genome) && isS4(genome)) {
     .Object <- getKaryotype(.Object, genome)
   } else if (!is.na(karyoFile)) {
     .Object <- loadKaryotype(.Object, karyoFile)
-  }
+  } else if (!missing(regions)) {
+    .Object <- setRegions(.Object,regions)
+  } 
   callNextMethod(.Object, ...)
 }
 
@@ -76,6 +80,23 @@ getKaryotype.GreyList <- function(obj,genome,tileSize) {
     obj@tiles <- suppressWarnings(resize(tiles_half,tileSize))
     obj@tiles <- trim(obj@tiles)
   }
+  return(obj)
+}
+
+#tileRegions <- function(regions,tileSize) {
+#  tiles <- slidingWindows(regions,width=tileSize,step=tileSize/2)
+#  obj@tiles = do.call("c",tiles)
+#}
+
+setRegions.GreyList <- function(obj,regions,tileSize) {
+  obj@genomeRegions <- regions
+  x <- slidingWindows(regions,width=tileSize,step=tileSize/2)
+  if (length(x) > 1) {
+    obj@tiles <- do.call("c",x)
+  } else {
+    obj@tiles <- x
+  }
+  obj@tiles <- trim(obj@tiles)
   return(obj)
 }
 
@@ -196,12 +217,19 @@ greyListBS <- function(genome,bam) {
 }
 
 setMethod("initialize","GreyList",initialize.GreyList)
+
 setGeneric("getKaryotype",def=function(obj,genome,tileSize=1024) {
   standardGeneric("getKaryotype")})
 setMethod(getKaryotype,"GreyList",getKaryotype.GreyList)
+
 setGeneric("loadKaryotype",def=function(obj,karyoFile,tileSize=1024) {
   standardGeneric("loadKaryotype")})
 setMethod(loadKaryotype,"GreyList",loadKaryotype.GreyList)
+
+setGeneric("setRegions",def=function(obj,regions,tileSize=1024) {
+  standardGeneric("setRegions")})
+setMethod(setRegions,"GreyList",setRegions.GreyList)
+
 setGeneric("countReads",def=function(obj,bamFile) {
   standardGeneric("countReads")})
 setMethod(countReads,"GreyList",countReads.GreyList)

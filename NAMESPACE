@@ -16,6 +16,7 @@ importFrom(utils,read.table,write.table)
 exportClasses(GreyList)
 exportMethods(getKaryotype,
               loadKaryotype,
+              setRegions,
               countReads,
               calcThreshold,
               makeGreyList,
