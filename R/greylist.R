@@ -42,7 +42,10 @@ setClass("GreyList",
          validity=function(object) { return(TRUE) }
 )
 
-initialize.GreyList <- function(.Object, genome=NA, karyoFile=NA, regions=NA, ...) {
+initialize.GreyList <- function(.Object,
+                                genome=NA,
+                                karyoFile=NA,
+                                regions=NA, ...) {
   if (!missing(genome) && isS4(genome)) {
     .Object <- getKaryotype(.Object, genome)
   } else if (!is.na(karyoFile)) {
@@ -92,7 +95,8 @@ setRegions.GreyList <- function(obj,regions,tileSize) {
   obj@genomeRegions <- regions
   x <- slidingWindows(regions,width=tileSize,step=tileSize/2)
   if (length(x) > 1) {
-    obj@tiles <- do.call("c",x)
+#    obj@tiles <- do.call("c",x)
+    obj@tiles <- unlist(x)
   } else {
     obj@tiles <- x
   }

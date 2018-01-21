@@ -35,7 +35,7 @@ object.
     \item{\code{karyo_file}:}{The name of a file containing chromosome sizes
           for the reference genome of interest, one per line, as
           "chromName chromLength" pairs.}
-    \item{\code{genomicRegions}:}{a \code{\linkS4class{GRanges}} object
+    \item{\code{genomeRegions}:}{a \code{\linkS4class{GRanges}} object
           that defines which regions of the genome should be used to build
           the grey list.  This is to allow the list to be built on just part
           of the genome.}
@@ -89,7 +89,8 @@ object.
     \item{getKaryotype}{\code{signature(obj = "GreyList")}: Get the karyotype
           of a genome from a \code{\linkS4class{BSgenome}} object.}
     \item{setRegions}{\code{signature(obj = "GreyList")}: Set the region(s)
-          of a genome to use in making the \code{\linkS4class{GreyList}} object.}
+          of a genome to use in making the \code{\linkS4class{GreyList}}
+          object.}
     \item{makeGreyList}{\code{signature(obj = "GreyList")}: Compute the actual
           grey list, after calculating the threshold.}
     \item{show}{\code{signature(object = "GreyList")}: Display the grey list.}
