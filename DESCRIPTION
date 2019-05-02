@@ -1,6 +1,6 @@
 Package: GreyListChIP
 Type: Package
-Version: 1.16.0
+Version: 1.17.0
 Title: Grey Lists -- Mask Artefact Regions Based on ChIP Inputs
 Date: 2018-01-21
 Author: Gord Brown <gdbzork@gmail.com>
