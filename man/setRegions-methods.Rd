@@ -32,7 +32,8 @@ setRegions(obj, regions, tileSize=1024)
 data(greyList)
 
 # Replace the karyotype, updating the genome tiling.
-regions=GRanges(seqnames=Rle(c('chr21','chr21','chr22')),ranges=IRanges(c(1,20000,30000),end=c(10000,30000,40000)))
-gl <- setRegions(gl,regions)
+regions=GRanges(seqnames=Rle(c('chr21','chr21','chr22')),
+                ranges=IRanges(c(1,20000,30000),end=c(10000,30000,40000)))
+gl <- setRegions(greyList,regions)
 }
 \keyword{methods}

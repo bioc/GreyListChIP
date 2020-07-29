@@ -2,6 +2,13 @@
 \title{GreyListChIP News}
 \encoding{UTF-8}
 
+\section{Version 1.22.0}{
+  \itemize{
+    \item{Add black lists for C. Elegans ce11, mouse dm6.}
+    \item{Update existing black lists to version 2, or version 3 for human GRCh37, GRCh38.}
+  }
+}
+
 \section{Version 1.11.1}{
   \itemize{
     \item{Allow "karyotype" to be specified as a GRanges object.}

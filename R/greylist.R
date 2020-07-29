@@ -44,10 +44,13 @@ setClass("GreyList",
 
 initialize.GreyList <- function(.Object,
                                 genome=NA,
+                                karyotype=NA,
                                 karyoFile=NA,
                                 regions=NA, ...) {
   if (!missing(genome) && isS4(genome)) {
     .Object <- getKaryotype(.Object, genome)
+  } else if (!missing(karyotype)) {
+    .Object <- setKaryotype(.Object, karyotype)
   } else if (!is.na(karyoFile)) {
     .Object <- loadKaryotype(.Object, karyoFile)
   } else if (!missing(regions)) {
@@ -65,6 +68,15 @@ loadKaryotype.GreyList <- function(obj,karyoFile,tileSize) {
                    genome=NA)
   obj@karyo_file <- karyoFile
   obj@karyotype <- kInfo
+  x <- tileGenome(obj@karyotype,tilewidth=tileSize/2)
+  tiles_half <- unlist(x)
+  obj@tiles <- suppressWarnings(resize(tiles_half,tileSize))
+  obj@tiles <- trim(obj@tiles)
+  return(obj)
+}
+
+setKaryotype.GreyList <- function(obj,karyo,tileSize) {
+  obj@karyotype <- karyo
   x <- tileGenome(obj@karyotype,tilewidth=tileSize/2)
   tiles_half <- unlist(x)
   obj@tiles <- suppressWarnings(resize(tiles_half,tileSize))
@@ -124,13 +136,13 @@ fitDist <- function(n,x,size) {
 }
 
 estimateParams <- function(obj,reps,size,cores) {
-  stuff <- mclapply(1:reps,fitDist,obj@counts,size,mc.cores=cores)
+  stuff <- mclapply(seq_len(reps),fitDist,obj@counts,size,mc.cores=cores)
   stuff <- stuff[!is.na(stuff)]
   reps <- length(stuff)
-  obj@size_param <- sapply(1:reps,function(x) stuff[[x]]$estimate['size'])
-  obj@size_stderr <- sapply(1:reps,function(x) stuff[[x]]$sd['size'])
-  obj@mu_param <- sapply(1:reps,function(x) stuff[[x]]$estimate['mu'])
-  obj@mu_stderr <- sapply(1:reps,function(x) stuff[[x]]$sd['mu'])
+  obj@size_param <- vapply(seq_len(reps),function(x) stuff[[x]]$estimate['size'],numeric(1))
+  obj@size_stderr <- vapply(seq_len(reps),function(x) stuff[[x]]$sd['size'],numeric(1))
+  obj@mu_param <- vapply(seq_len(reps),function(x) stuff[[x]]$estimate['mu'],numeric(1))
+  obj@mu_stderr <- vapply(seq_len(reps),function(x) stuff[[x]]$sd['mu'],numeric(1))
   obj@size_mean <- mean(obj@size_param)
   obj@mu_mean <- mean(obj@mu_param)
   return(obj)
@@ -166,10 +178,20 @@ export.GreyList <- function(object, con, ...) {
 show.GreyList <- function(object) {
   words <- character(10)
   if (is.na(object@karyo_file)) {
-    words[1] <- sprintf("GreyList on %s (%s %s)\n",
-                        organism(object@genome),
-                        provider(object@genome),
-                        providerVersion(object@genome))
+    if (length(organism(object@genome)) == 0) {
+      sinf <- object@karyotype
+      g <- genome(sinf)
+      if (length(g) == 0) {
+        words[1] <- "GreyList on unknown genome\n"
+      } else {
+        words[1] <- sprintf("GreyList on %s\n",g[1])
+      }
+    } else {
+      words[1] <- sprintf("GreyList on %s (%s %s)\n",
+                          organism(object@genome),
+                          provider(object@genome),
+                          providerVersion(object@genome))
+    }
   } else {
     words[1] <- sprintf("GreyList on karyotype file %s\n",
                         basename(object@karyo_file))
@@ -225,6 +247,10 @@ setMethod("initialize","GreyList",initialize.GreyList)
 setGeneric("getKaryotype",def=function(obj,genome,tileSize=1024) {
   standardGeneric("getKaryotype")})
 setMethod(getKaryotype,"GreyList",getKaryotype.GreyList)
+
+setGeneric("setKaryotype",def=function(obj,karyo,tileSize=1024) {
+  standardGeneric("setKaryotype")})
+setMethod(setKaryotype,"GreyList",setKaryotype.GreyList)
 
 setGeneric("loadKaryotype",def=function(obj,karyoFile,tileSize=1024) {
   standardGeneric("loadKaryotype")})

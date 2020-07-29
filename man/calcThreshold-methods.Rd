@@ -38,7 +38,7 @@ calcThreshold(obj, reps=100, sampleSize=30000, p=0.99,cores=1)
 data(greyList)
 
 # Calculate the threshold:
-gl <- calcThreshold(gl,reps=10,sampleSize=1000,p=0.99,cores=1)
+gl <- calcThreshold(greyList,reps=10,sampleSize=1000,p=0.99,cores=1)
 }
 \references{
 Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S.

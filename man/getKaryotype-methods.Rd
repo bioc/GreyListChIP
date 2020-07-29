@@ -32,6 +32,6 @@ data(greyList)
 library(BSgenome.Hsapiens.UCSC.hg19)
 
 # Replace the karyotype, updating the genome tiling.
-\dontrun{gl <- getKaryotype(gl,BSgenome.Hsapiens.UCSC.hg19)}
+\dontrun{gl <- getKaryotype(greyList,BSgenome.Hsapiens.UCSC.hg19)}
 }
 \keyword{methods}

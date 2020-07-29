@@ -38,6 +38,6 @@ path <- system.file("extra", package="GreyListChIP")
 fn <- file.path(path,"karyotype_chr21.txt")
 
 # Replace the karyotype in the GreyList:
-gl <- loadKaryotype(gl,fn)
+gl <- loadKaryotype(greyList,fn)
 }
 \keyword{methods}

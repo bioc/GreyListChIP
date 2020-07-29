@@ -31,6 +31,6 @@ data(greyList)
 
 path <- system.file("extra", package="GreyListChIP")
 \dontrun{fn <- file.path(path,"sample_chr21.bam")}
-\dontrun{gl <- countReads(gl,fn)}
+\dontrun{gl <- countReads(greyList,fn)}
 }
 \keyword{methods}

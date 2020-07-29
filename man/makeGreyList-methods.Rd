@@ -30,6 +30,6 @@ makeGreyList(obj,maxGap=16384)
 data(greyList)
 
 # calculate the actual regions:
-gl <- makeGreyList(gl)
+gl <- makeGreyList(greyList)
 }
 \keyword{methods}

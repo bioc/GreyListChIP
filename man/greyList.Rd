@@ -1,7 +1,6 @@
 \name{greyList}
 \docType{data}
 \alias{greyList}
-\alias{gl}
 \title{A sample \code{\linkS4class{GreyList}} object for use in examples.}
 \description{This is a sample \code{\linkS4class{GreyList}} object, covering
 only human chromosome 21 (from genome version hg19).  The input library
@@ -53,6 +52,6 @@ generated; otherwise fields still without values would be omitted.  Of course
 any stage can be re-run with different parameters.
 }
 \usage{data(greyList)}
-\value{A \code{\linkS4class{GreyList}} object named \code{gl}.}
+\value{A \code{\linkS4class{GreyList}} object named \code{greyList}.}
 \format{An S4 \code{\linkS4class{GreyList}} object.}
 \keyword{datasets}
