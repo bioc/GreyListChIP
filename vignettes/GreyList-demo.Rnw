@@ -14,7 +14,7 @@ BiocStyle::latex()
 \title{Generating Grey Lists from Input Libraries}
 \author{Gord Brown}
 
-\date{Edited: 2014-12-29; Compiled: \today}
+\date{Edited: 2020-07-29; Compiled: \today}
 
 \maketitle
 
