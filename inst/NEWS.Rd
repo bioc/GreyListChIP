@@ -2,6 +2,12 @@
 \title{GreyListChIP News}
 \encoding{UTF-8}
 
+\section{Version 1.28.1}{
+  \itemize{
+    \item{Change maintainer email from Gord to Rory.}
+  }
+}
+
 \section{Version 1.22.0}{
   \itemize{
     \item{Add black lists for C. Elegans ce11, mouse dm6.}
