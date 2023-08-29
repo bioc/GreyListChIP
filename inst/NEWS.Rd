@@ -2,6 +2,12 @@
 \title{GreyListChIP News}
 \encoding{UTF-8}
 
+\section{Version 1.32.1}{
+  \itemize{
+    \item{Change maintainer email from Rory to Matt}
+  }
+}
+
 \section{Version 1.29.1}{
   \itemize{
     \item{Change maintainer email from Gord to Rory.}
