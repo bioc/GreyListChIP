@@ -1,10 +1,12 @@
 Package: GreyListChIP
 Type: Package
-Version: 1.33.0
+Version: 1.33.1
 Title: Grey Lists -- Mask Artefact Regions Based on ChIP Inputs
 Date: 2020-07-29
-Author: Gord Brown <gdbzork@gmail.com>
-Maintainer: Rory Stark <rory.stark@cruk.cam.ac.uk>
+Authors@R: c(person("Matt","Eldridge", email="matthew.eldridge@cruk.cam.ac.uk",
+                  role = c("cre")),
+             person("Gord","Brown",email="DECEASED",
+                  role="aut"))
 Description: Identify regions of ChIP experiments with high signal in
         the input, that lead to spurious peaks during peak calling.
         Remove reads aligning to these regions prior to peak calling,
