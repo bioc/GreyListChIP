@@ -116,8 +116,8 @@ setRegions.GreyList <- function(obj,regions,tileSize) {
   return(obj)
 }
 
-countReads.GreyList <- function(obj,bamFile) {
-  fd <- BamFile(bamFile)
+countReads.GreyList <- function(obj,bamFile,yieldSize=NA_integer_) {
+  fd <- BamFile(bamFile,yieldSize=yieldSize)
   counts <- summarizeOverlaps(obj@tiles,fd,inter.feature=FALSE,
                               ignore.strand=TRUE,
                               mode="IntersectionStrict")
@@ -260,7 +260,7 @@ setGeneric("setRegions",def=function(obj,regions,tileSize=1024) {
   standardGeneric("setRegions")})
 setMethod(setRegions,"GreyList",setRegions.GreyList)
 
-setGeneric("countReads",def=function(obj,bamFile) {
+setGeneric("countReads",def=function(obj,bamFile,yieldSize=NA_integer_) {
   standardGeneric("countReads")})
 setMethod(countReads,"GreyList",countReads.GreyList)
 setGeneric("calcThreshold",
