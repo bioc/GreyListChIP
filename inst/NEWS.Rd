@@ -2,9 +2,15 @@
 \title{GreyListChIP News}
 \encoding{UTF-8}
 
+\section{Version 1.35.1}{
+  \itemize{
+    \item{Added yieldSize argument to countReads method.}
+  }
+}
+
 \section{Version 1.32.1}{
   \itemize{
-    \item{Change maintainer email from Rory to Matt}
+    \item{Change maintainer email from Rory to Matt.}
   }
 }
 
