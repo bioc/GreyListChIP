@@ -1,8 +1,8 @@
 Package: GreyListChIP
 Type: Package
-Version: 1.41.0
+Version: 1.41.1
 Title: Grey Lists -- Mask Artefact Regions Based on ChIP Inputs
-Date: 2020-07-29
+Date: 2025-07-22
 Authors@R: c(person("Matt","Eldridge", email="matthew.eldridge@cruk.cam.ac.uk",
                   role = c("cre")),
              person("Gord","Brown",email="DECEASED",
@@ -15,8 +15,7 @@ License: Artistic-2.0
 LazyLoad: yes
 Depends: R (>= 4.0), methods, GenomicRanges
 Imports: GenomicAlignments, BSgenome, Rsamtools, rtracklayer, MASS,
-        parallel, GenomeInfoDb, SummarizedExperiment, stats,
-        utils
+        parallel, Seqinfo, SummarizedExperiment, stats, utils
 Suggests: BiocStyle, BiocGenerics, RUnit, BSgenome.Hsapiens.UCSC.hg19
 biocViews: ChIPSeq, Alignment, Preprocessing, DifferentialPeakCalling,
         Sequencing, GenomeAnnotation, Coverage
